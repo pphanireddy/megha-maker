@@ -2,7 +2,7 @@
 
 import fabric.api
 def add():
-    fabric.api.local('git add -p')
+    fabric.api.local('git add -A')
 
 def commit():
     fabric.api.local('git commit')
