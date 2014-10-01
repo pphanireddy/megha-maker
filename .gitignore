@@ -1,1 +1,4 @@
 fabfile.pyc
+remotehostnames.list
+pathstosshkeys.list
+

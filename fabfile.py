@@ -19,3 +19,16 @@ def prepare_deploy():
     add()
     commit()
     push()
+
+# Set the hosts for a command
+def set_hosts(filename):
+    fabric.api.env.hosts = open(filename, 'r').read().splitlines()
+
+# Set private keys used for ssh
+def set_keys(filename):
+    fabric.api.env.key_filename = open(filename, 'r').read().splitlines()
+
+#Simple command to test
+def uname():
+    fabric.api.run ('uname -a')
+
