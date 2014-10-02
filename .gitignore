@@ -1,4 +1,4 @@
-fabfile.pyc
-remotehostnames.list
-pathstosshkeys.list
+*.pyc
+configdata.py
+configdata/*
 
