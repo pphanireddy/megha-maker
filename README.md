@@ -1,4 +1,4 @@
-tornado-app
+azure-tornado-app
 ===========
 
 This is a full fledged app that does the following:
