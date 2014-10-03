@@ -6,25 +6,25 @@ from configdata import configdict
 # create storage account
 @fabric.api.task
 def createstorageaccount():
-    fabric.api.local('azure storage account create %s --label PrimaryStorage --location %s' % 
+    fabric.api.local(r'azure storage account create %s --label PrimaryStorage --location "%s"' % 
         (configdict['storageaccountname'], configdict['azurelocation']))
 
 # delete storage account
 @fabric.api.task
 def deletestorageaccount():
-    fabric.api.local('azure storage account delete %s' % configdict['storageaccountname'])
+    fabric.api.local(r'azure storage account delete -q %s' % configdict['storageaccountname'])
 
 # create virtual machine
 @fabric.api.task
 def createvm():
-    fabric.api.local(r'azure vm create %s %s %s --location %s -e -t %s -P' % 
+    fabric.api.local(r'azure vm create %s %s %s --location "%s" -e -t %s -P' % 
         (configdict['vmname'], configdict['vmimage'], configdict['username'], 
-		configdict['azurelocation'], configdict['publicsshkeypath']))
+		configdict['azurelocation'], configdict['publicsshcertpath']))
 
 # delete virtual machine
 @fabric.api.task
 def deletevm():
-    fabric.api.local('azure vm delete -b -q blrpytest')
+    fabric.api.local(r'azure vm delete -b -q %s' % configdict['vmname'])
 
 # generate private key and a self signed certificate
 @fabric.api.task
