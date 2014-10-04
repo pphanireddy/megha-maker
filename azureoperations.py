@@ -6,8 +6,10 @@ from configdata import configdict
 # create storage account
 @fabric.api.task
 def createstorageaccount():
-    fabric.api.local(r'azure storage account create %s --label PrimaryStorage --location "%s"' % 
+    command = (r'azure storage account create %s --label PrimaryStorage --location "%s"' % 
         (configdict['storageaccountname'], configdict['azurelocation']))
+    print command
+    fabric.api.local(command)
 
 # delete storage account
 @fabric.api.task
@@ -19,17 +21,22 @@ def deletestorageaccount():
 def createvm():
     fabric.api.local(r'azure vm create %s %s %s --location "%s" -e -t %s -P' % 
         (configdict['vmname'], configdict['vmimage'], configdict['username'], 
-		configdict['azurelocation'], configdict['publicsshcertpath']))
+		configdict['azurelocation'], configdict['privatesshpempath']))
 
 # delete virtual machine
 @fabric.api.task
 def deletevm():
     fabric.api.local(r'azure vm delete -b -q %s' % configdict['vmname'])
 
+# add endpoint to vm
+@fabric.api.task
+def addvmendpoint(lbport, vmport):
+    fabric.api.local(r'azure vm endpoint create %s %s %s' % (configdict['vmname'], lbport, vmport))
+
 # generate private key and a self signed certificate
 @fabric.api.task
 def createprivatekeyandcert():
-    fabric.api.local(r'openssl genrsa -des3 -out %s  2048' % 
+    fabric.api.local(r'openssl genrsa -out %s  2048' % 
 		    (configdict['privatesshkeypath']))
     fabric.api.local(r'openssl req -new -x509 -key %s -out %s -days %d' % 
-		    (configdict['privatesshkeypath'], configdict['publicsshcertpath'], 365))
+    		    (configdict['privatesshkeypath'], configdict['privatesshpempath'], 365))

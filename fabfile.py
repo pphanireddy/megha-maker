@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
+import os
 import fabric.api
 import azureoperations
-import installprerequisites
+import deployoperations
+from configdata import configdict
 
 # Add all files except ignored files to git
 @fabric.api.task
@@ -29,12 +31,14 @@ def prepare_deploy():
 # Set the hosts for a command
 @fabric.api.task
 def set_hosts(filename):
+    fabric.api.env.user = 'blr'
     fabric.api.env.hosts = open(filename, 'r').read().splitlines()
 
 # Set private keys used for ssh
 @fabric.api.task
-def set_keys(filename):
-    fabric.api.env.key_filename = open(filename, 'r').read().splitlines()
+def set_keys():
+    fabric.api.env.key_filename = configdict['privatesshkeypath']
+    print fabric.api.env.key_filename
 
 #Simple command to test
 @fabric.api.task
