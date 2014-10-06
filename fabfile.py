@@ -2,31 +2,11 @@
 
 import os
 import fabric.api
-import azureoperations
-import deployoperations
-from configdata import configdict
-
-# Add all files except ignored files to git
-@fabric.api.task
-def add():
-    fabric.api.local('git add -A')
-
-# Commit added files to git
-@fabric.api.task
-def commit():
-    fabric.api.local('git commit')
-
-# Push the committed changes to github
-@fabric.api.task
-def push():
-    fabric.api.local('git push')
-
-# Execute the three steps needed to update the latest code
-@fabric.api.task
-def prepare_deploy():
-    add()
-    commit()
-    push()
+import azure
+import build
+import deploy
+import hadoop
+from config import configdict
 
 # Set the hosts for a command
 @fabric.api.task
@@ -42,6 +22,6 @@ def set_keys():
 
 #Simple command to test
 @fabric.api.task
-def uname():
+def get_uname():
     fabric.api.run ('uname -a')
 

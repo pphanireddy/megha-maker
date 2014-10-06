@@ -1,4 +1,4 @@
 *.pyc
-configdata.py
-configdata/*
+config.py
+config/*
 
