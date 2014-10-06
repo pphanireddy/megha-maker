@@ -1,9 +1,9 @@
-azure-tornado-app
+azure-cloud-orchestra
 ===========
 
-This is a full fledged app that does the following:
+This project does the following:
 
-1. Creates a storage account and a virtual machine in azure
-2. Installs pip and tornado on the virtual machine
+1. Creates a storage account and a virtual machines in azure
+2. Installs pip, java etc on the virtual machine
 3. Pulls this repository on to the user's home directory
-4. Runs the tornado application
+4. Runs YARN cluster
