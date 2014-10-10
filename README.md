@@ -1,7 +1,7 @@
-megha-madhanam
+megha-maker
 ==============
 
-Megha-Madhanam == Cloud-Seeding (http://en.wikipedia.org/wiki/Cloud_seeding)
+Megha-Madker == Cloud-Maker (Megha means cloud in Hindi)
 
 This project does the following:
 
