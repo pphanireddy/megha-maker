@@ -1,7 +1,7 @@
 megha-maker
 ==============
 
-Megha-Madker == Cloud-Maker (Megha means cloud in Hindi)
+Megha-Maker == Cloud-Maker (Megha means cloud in Hindi)
 
 This project does the following:
 
