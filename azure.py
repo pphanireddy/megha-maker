@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import fabric.api
-from config import configdict
 
 # create cloud service
 def create_cloudservice(servicename, location):

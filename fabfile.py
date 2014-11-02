@@ -4,7 +4,6 @@ import os
 import fabric.api
 import azure
 import deploy
-from config import configdict
 
 # Set the hosts for a command
 @fabric.api.task
