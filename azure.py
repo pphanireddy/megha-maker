@@ -45,13 +45,3 @@ def add_vmendpoint(vmname, lbport, vmport):
             (vmname, 
             lbport, 
             vmport))
-
-# generate private key and a self signed certificate
-@fabric.api.task
-def create_certificate():
-    fabric.api.local(r'openssl genrsa -out %s  2048' % 
-	    (configdict['privatesshkeypath']))
-    fabric.api.local(r'openssl req -new -x509 -key %s -out %s -days %d' % 
-    	    (configdict['privatesshkeypath'], 
-            configdict['privatesshpempath'], 
-            365))
