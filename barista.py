@@ -3,6 +3,7 @@
 import os
 import fabric.api
 import azure
+import service
 
 # installs the standard packages required by the service
 @fabric.api.task
@@ -22,10 +23,15 @@ def install_hadoop():
 
 # creates the specified service
 @fabric.api.task
-def create_service(service):
-    azure.create_cloudservice(service, 'West US')
-
+def create_service(path):
+    servicexmldoc = file(os.path.join(path, 'service.xml')).read()
+    serviceobject = service.CreateFromDocument(servicexmldoc)
+    azure.create_cloudservice(serviceobject.name, serviceobject.location)
+    azure.create_storageaccount(serviceobject.name, serviceobject.location)
 # deletes the specified service
 @fabric.api.task
-def delete_service(service):
-    azure.delete_cloudservice(service)
+def delete_service(path):
+    servicexmldoc = file(os.path.join(path, 'service.xml')).read()
+    serviceobject = service.CreateFromDocument(servicexmldoc)
+    azure.delete_cloudservice(serviceobject.name)
+    azure.delete_storageaccount(serviceobject.name)
