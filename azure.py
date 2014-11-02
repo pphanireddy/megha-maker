@@ -3,40 +3,55 @@
 import fabric.api
 from config import configdict
 
+# create cloud service
+def create_cloudservice(servicename, location):
+    fabric.api.local(r'azure service create --serviceName %s --location "%s"' %
+            (servicename, 
+            location))
+
+# delete cloud service
+def delete_cloudservice(servicename):
+    fabric.api.local(r'azure service delete --quiet --serviceName %s' %
+            servicename)
+        
 # create storage account
-@fabric.api.task
-def create_storageaccount():
-    command = (r'azure storage account create %s --label PrimaryStorage --location "%s"' % 
-        (configdict['storageaccountname'], configdict['azurelocation']))
-    print command
-    fabric.api.local(command)
+def create_storageaccount(storageaccountname, location):
+    fabric.api.local(r'azure storage account create %s --label PrimaryStorage --location "%s"' % 
+            (storageaccountname, 
+            location))
 
 # delete storage account
-@fabric.api.task
-def delete_storageaccount():
-    fabric.api.local(r'azure storage account delete -q %s' % configdict['storageaccountname'])
+def delete_storageaccount(storageaccountname):
+    fabric.api.local(r'azure storage account delete -q %s' % 
+            storageaccountname)
 
 # create virtual machine
-@fabric.api.task
-def create_virtualmachine():
+def create_virtualmachine(vmname, vmimage, username, location, sshpempath):
     fabric.api.local(r'azure vm create %s %s %s --location "%s" -e -t %s -P' % 
-        (configdict['vmname'], configdict['vmimage'], configdict['username'], 
-		configdict['azurelocation'], configdict['privatesshpempath']))
+            (vmname, 
+            vmimage, 
+            username, 
+	    location, 
+            sshpempath))
 
 # delete virtual machine
-@fabric.api.task
-def delete_virtualmachine():
-    fabric.api.local(r'azure vm delete -b -q %s' % configdict['vmname'])
+def delete_virtualmachine(vmname):
+    fabric.api.local(r'azure vm delete -b -q %s' % 
+            vmname)
 
 # add endpoint to vm
-@fabric.api.task
-def add_vmendpoint(lbport, vmport):
-    fabric.api.local(r'azure vm endpoint create %s %s %s' % (configdict['vmname'], lbport, vmport))
+def add_vmendpoint(vmname, lbport, vmport):
+    fabric.api.local(r'azure vm endpoint create %s %s %s' % 
+            (vmname, 
+            lbport, 
+            vmport))
 
 # generate private key and a self signed certificate
 @fabric.api.task
 def create_certificate():
     fabric.api.local(r'openssl genrsa -out %s  2048' % 
-		    (configdict['privatesshkeypath']))
+	    (configdict['privatesshkeypath']))
     fabric.api.local(r'openssl req -new -x509 -key %s -out %s -days %d' % 
-    		    (configdict['privatesshkeypath'], configdict['privatesshpempath'], 365))
+    	    (configdict['privatesshkeypath'], 
+            configdict['privatesshpempath'], 
+            365))

@@ -3,9 +3,7 @@
 import os
 import fabric.api
 import azure
-import build
 import deploy
-import hadoop
 from config import configdict
 
 # Set the hosts for a command
