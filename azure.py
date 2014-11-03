@@ -25,12 +25,14 @@ def delete_storageaccount(storageaccountname):
             storageaccountname)
 
 # create virtual machine
-def create_virtualmachine(vmname, vmimage, username, location, sshpempath):
-    fabric.api.local(r'azure vm create %s %s %s --location "%s" -e -t %s -P' % 
-            (vmname, 
-            vmimage, 
-            username, 
-	    location, 
+def create_virtualmachine(dnsname, vmimage, username, servicename, vmname, location, sshpempath):
+    fabric.api.local('azure vm create "%s" "%s" "%s" S@!123 -n "%s" -l "%s" -c "%s" -t "%s" -P -e -v' % 
+            (dnsname,
+            vmimage,
+            username,
+            vmname,
+	    location,
+            servicename,
             sshpempath))
 
 # delete virtual machine
