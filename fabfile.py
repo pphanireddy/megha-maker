@@ -1,23 +1,18 @@
 #!/usr/bin/python
 
-import os
 import fabric.api
-import barista
+from commonutil import *
+from computeutil import *
+from storageutil import *
+from serviceutil import *
 
-# Set the hosts for a command
+# List azure locations
 @fabric.api.task
-def set_hosts(filename):
-    fabric.api.env.user = 'blr'
-    fabric.api.env.hosts = open(filename, 'r').read().splitlines()
+def get_azure_locations():
+    manager=CommonUtil(r'3fec5be7-3873-45ca-b19d-fc0f879be4c0', 
+            r'/home/blr/cloudinfra/secretstorage/azure.pem')
+    manager.list_locations()
 
-# Set private keys used for ssh
 @fabric.api.task
-def set_keys():
-    fabric.api.env.key_filename = configdict['privatesshkeypath']
-    print fabric.api.env.key_filename
-
-# Simple command to test
-@fabric.api.task
-def get_uname():
-    fabric.api.run ('uname -a')
+deb create_application():
 
