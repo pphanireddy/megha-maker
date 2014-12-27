@@ -3,7 +3,7 @@
 from azure import *
 from azure.servicemanagement import *
 
-class ServiceUtil(object):
+class Service(object):
 
     # constructor
     def __init__(self, subscription_id, management_pem_path):
